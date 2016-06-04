@@ -18,12 +18,19 @@ class HomeController < ApplicationController
       @repos_hash = JSON.parse(response.body)
       #redirect to select blog
     else
-      #redirect to list repo files
+      redirect_to blog_index_path
     end
 
   end
 
   def create
-    @blog_repo = params[:repo_id]
+    repo = params[:repo]
+    repo_details = repo.split("|")
+    @user = User.find_by(id: session[:user_id])
+    @user.blog_repo = repo_details[1]
+    @user.blog_repo_id = repo_details[0]
+    @user.save
+    redirect_to blog_index_path
   end
+
 end

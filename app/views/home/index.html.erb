@@ -2,7 +2,7 @@
 
 <%= form_tag(controller: "home", action: "create", method: "post") do %>
   <% @repos_hash.each do |repo| %>
-    <%= radio_button_tag(:repo_id, repo["id"]) %>
+    <%= radio_button_tag(:repo, "#{repo["id"]}|#{repo["name"]}|#{repo["full_name"]}") %>
     <%= label_tag(:blog_repo, repo["full_name"]) %>
     <br />
   <% end %>

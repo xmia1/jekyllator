@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   resources :home
+  resources :blog
+  
   root 'home#index'
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
