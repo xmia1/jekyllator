@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604081032) do
+ActiveRecord::Schema.define(version: 20160604095419) do
 
   create_table "users", force: :cascade do |t|
     t.string   "github_uid"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160604081032) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "blog_repo_id"
+    t.string   "nickname"
   end
 
 end

@@ -1,5 +1,13 @@
 class SessionsController < ApplicationController
 
+
+  def login
+    @user = User.find_by(id: session[:user_id])
+    if !@user.nil?
+      redirect_to home_index_path
+    end
+  end
+
   def create
       #puts request.env['omniauth.auth']
       #hash  = request.env["omniauth.auth"]
@@ -9,7 +17,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       puts "Welcome, #{@user.name}!"
       respond_to do |format|
-        format.html {redirect_to root_path, :flash => { :success => "Welcome, #{@user.name}!" }}
+        format.html {redirect_to home_index_path, :flash => { :success => "Welcome, #{@user.name}!" }}
       end
 
   end
