@@ -27,7 +27,7 @@ gem 'twitter-bootstrap-rails'
 gem 'omniauth-github'
 gem 'bootstrap-sass', '3.2.0.2'
 gem 'rspec-rails'
-
+gem 'kramdown'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

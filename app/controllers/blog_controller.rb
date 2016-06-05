@@ -1,3 +1,5 @@
+require 'kramdown'
+require 'yaml'
 class BlogController < ApplicationController
 
   def index
@@ -15,6 +17,7 @@ class BlogController < ApplicationController
   end
 
   def show
+
     @post_name = params[:id]
     format = params[:format]
     @user = User.find_by(id: session[:user_id])
@@ -28,8 +31,26 @@ class BlogController < ApplicationController
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-    @content = response.body
+    req = Net::HTTP::Get.new(uri.request_uri)
+    response = http.request(req)
+    #puts response
+    doc = response.body.force_encoding("utf-8")
+    @post = YAML.load(doc)
+    #post_headers = YAML.load(doc)
+    post_content = doc.sub(/^\s*---(.*?)---\s/m, "")
+
+
+    #doc = "Bob's cat"
+    #doc = doc.encode('utf-8', :invalid => :replace, :undef => :replace, :replace => "\'")
+    @post["content"] = Kramdown::Document.new(post_content).to_html#.html_safe#.convert#.to_html.html_safe
+    #
+    puts @post
+    request.format = 'html'
+    respond_to do |format|
+      format.html #{ render html: content.html_safe, :layout => true}
+      format.json
+    end
+
+    #p_doc = Kramdown::Parser::parse(doc)
     end
 end
