@@ -1,1 +1,25 @@
-Blog-Index
+<h1>Blog-Index</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Post
+      </th>
+      <th>
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @files.each do |f| %>
+      <tr>
+        <td>
+          <%= f["name"] %> <br />
+        </td>
+        <td>
+          <%= link_to 'Show', blog_path(f["name"]) %> <br />
+        </td>
+      </tr>
+    <% end%>
+  </tbody>
+</table>

@@ -28,6 +28,10 @@ RSpec.configure do |config|
   with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
   to_return(:status => 200, :body => '{"message":"Not Found"}', :headers => {})
 
+  stub_request(:get, "https://api.github.com/repos/anon/no_repo/contents/_posts").
+    with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+    to_return(:status => 200, :body => "[]", :headers => {})
+
   end
   #config.include FactoryGirl::Syntax::Methods
   # rspec-expectations config goes here. You can use an alternate
