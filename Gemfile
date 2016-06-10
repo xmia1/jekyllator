@@ -28,6 +28,8 @@ gem 'omniauth-github'
 gem 'bootstrap-sass', '3.2.0.2'
 gem 'rspec-rails'
 gem 'kramdown'
+gem 'rest_client'
+gem 'github_api'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

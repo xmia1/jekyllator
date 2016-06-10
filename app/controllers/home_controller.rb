@@ -1,61 +1,48 @@
+require 'github_api'
 class HomeController < ApplicationController
+
+
+  def new
+  end
 
   def index
     @user = User.find_by(id: session[:user_id])
 
     if @user.blog_repo == nil
-      url = @user.repo_url
-      puts url
-      uri = URI.parse(url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      #http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      request = Net::HTTP::Get.new(uri.request_uri)
-      #user = ENV['FUNCTIONAL_ID']
-      #  pw = ENV['FUNCTIONAL_PW']
-      #request.basic_auth(user, pw)
-      response = http.request(request)
-      @repos_hash = JSON.parse(response.body)
-      #redirect to select blog
+      authorization_code = params[:authenticity_token]
+      github = Github.new :oauth_token => authorization_code
+      @repos = github.repos.list user: @user.nickname
     else
       redirect_to blog_index_path
     end
 
   end
 
+  #selecting the blog repo
   def create
-    ["_posts"]
-    repo = params[:repo]
-    repo_details = repo.split("|")
-    user  = User.find_by(id: session[:user_id])
-    owner = user.nickname
-    #checking for _posts folder in the repo
-    url = "https://api.github.com/repos/#{owner}/#{repo_details[1]}/contents/_posts"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    #http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new(uri.request_uri)
-    #user = ENV['FUNCTIONAL_ID']
-    #  pw = ENV['FUNCTIONAL_PW']
-    #request.basic_auth(user, pw)
-    response = http.request(request)
-    response_hash = JSON.parse(response.body)
-    @user = User.find_by(id: session[:user_id])
-
-    if response_hash.class.name.eql?("Array")
-      if !response_hash[0]["path"].eql?(nil)
-        @user.blog_repo = repo_details[1]
-        @user.blog_repo_id = repo_details[0]
-        @user.save
-        redirect_to blog_index_path, notice: "Repo has been selected"
-      end
-    else
-      #format.html {redirect_to engagements_url, :flash => { :error => "Bluegroup creation failed: #{@result["message"]}" }}
-      #format.html {redirect_to engagements_url, notice: "Bluegroup #{@result["bluegroup"]} is created with admin ( and member) #{@result["admin"]} "}
-      redirect_to home_index_path, :flash => { :error => "Unable to find _posts folder in the selected repo, please select again" }
-
+    repo_data = params[:repo]
+    repo_details_array = repo_data.split("|")
+    user = User.find_by(id: session[:user_id])
+    token = session[:token]
+    #github = Github.new oauth_token: token
+    #contents = github.repos.contents#(@user.nickname, @user.blog_repo, "_posts/")
+    contents = Github::Client::Repos::Contents.new oauth_token: token
+    begin
+      response = contents.get(user.nickname, repo_details_array[1], "_posts")
+      user.blog_repo     = repo_details_array[1]
+      user.blog_repo_id  = repo_details_array[0]
+      user.save
+      redirect_to blog_index_path, notice: "Repo has been selected"
+    rescue Github::Error::GithubError => e
+      puts e.message
+        if e.is_a? Github::Error::ServiceError
+          redirect_to home_index_path, :flash => { :error => "Unable to find _posts folder in the selected repo, please select again" }
+        elsif e.is_a? Github::Error::ClientError
+          # handle client errors e.i. missing required parameter in request
+          # Not expecting any client errors here
+        end
     end
+
   end
 
 end

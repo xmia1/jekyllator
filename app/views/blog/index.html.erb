@@ -1,25 +1,30 @@
-<h1>Blog-Index</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th>
-        Post
-      </th>
-      <th>
-        Action
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @files.each do |f| %>
+<div class="container">
+  <h1>Blog-Index</h1>
+  <table class="table">
+    <thead>
       <tr>
-        <td>
-          <%= f["name"] %> <br />
-        </td>
-        <td>
-          <%= link_to 'Show', blog_path(f["name"]) %> <br />
-        </td>
+        <th>
+          Post
+        </th>
+        <th>
+          Action
+        </th>
       </tr>
-    <% end%>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @files.each do |f| %>
+         <tr>
+           <td>
+             <%= f.name %> <br />
+           </td>
+           <td>
+             <%= link_to 'Show', blog_path(f["name"]) %> <br />
+           </td>
+         </tr>
+       <% end%>
+
+    </tbody>
+  </table>
+  <p> <%= link_to 'Create', new_blog_path %></p>
+
+</div>

@@ -20,17 +20,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.before(:each) do
-    stub_request(:get, "https://api.github.com/repos/anon/valid_repo_name/contents/_posts").
-  with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-  to_return(:status => 200, :body => '[{"path": "_posts/2016-06-04-welcome-to-jekyll.markdown"}]', :headers => {})
 
-  stub_request(:get, "https://api.github.com/repos/anon/invalid_repo_name/contents/_posts").
-  with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-  to_return(:status => 200, :body => '{"message":"Not Found"}', :headers => {})
-
-  stub_request(:get, "https://api.github.com/repos/anon/no_repo/contents/_posts").
-    with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
-    to_return(:status => 200, :body => "[]", :headers => {})
 
   end
   #config.include FactoryGirl::Syntax::Methods

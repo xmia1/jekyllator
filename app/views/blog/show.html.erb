@@ -3,7 +3,7 @@
   <%= @post["title"] %><br /><br />
   Categories<br />
   <% list = @post["categories"] %>
-  <%= list.split(" ").join(",") %><br /><br />
+  <%= list.split(" ").join(",") unless list.nil? %><br /><br />
   Date<br />
   <%= @post["date"] %><br /><br />
   Content<br />
