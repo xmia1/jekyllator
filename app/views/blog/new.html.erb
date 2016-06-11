@@ -1,11 +1,18 @@
-<div class="container">
-  <%= form_tag(controller: "blog", action: "create", method: "post") do %>
-    <%= label_tag :title %>:<br />
-    <%= text_field_tag :title %><br />
+<div class="row">
+  <div class="col-md-6">
+    <%= form_tag(controller: "blog", action: "create", method: "post") do %>
+      <%= label_tag :title %>:<br />
+      <%= text_field_tag :title %><br />
 
-    <%= label_tag :content %>:<br />
-    <%= text_area_tag :content,nil,class: "contents"%><br />
-    <%= submit_tag("Submit") %>
-  <% end %>
-
+      <%= label_tag :content %>:<br />
+      <%= text_area_tag :content,nil,class: "contents"%><br />
+      <%= submit_tag("Submit") %>
+    <% end %>
+  </div>
+  <div class="col-md-6" id="preview">
+    <b>Title</b><br />
+    <div id="title_preview"></div><br />
+    <b>Content</b><br />
+    <div id="content_preview"></div><br />
+  </div>
 </div>

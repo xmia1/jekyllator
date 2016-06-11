@@ -8,11 +8,11 @@ Rails.application.routes.draw do
 
   resources :home
   resources :blog
-  
+
   root 'sessions#login'
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-
+  post 'parse', path: '/parse', controller: 'blog', action: 'parse'
 
 
   # You can have the root of your site routed with "root"
