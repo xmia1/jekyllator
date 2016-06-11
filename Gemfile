@@ -44,6 +44,7 @@ group :development, :test do
   gem 'byebug'
   gem 'factory_girl_rails'
   gem 'webmock'
+  gem 'timecop'
 end
 
 group :development do

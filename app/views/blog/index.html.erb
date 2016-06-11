@@ -20,6 +20,13 @@
            <td>
              <%= link_to 'Show', blog_path(f["name"]) %> <br />
            </td>
+           <td>
+             <%= link_to 'Delete', blog_path(f["name"]), method: :delete, :data => {:confirm => "Are you sure?"}%> <br />
+           </td>
+           <td>
+             <%= link_to 'Edit', edit_blog_path(f["name"].split(".")[0])%> <br />
+           </td>
+
          </tr>
        <% end%>
 
