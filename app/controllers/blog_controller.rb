@@ -202,7 +202,17 @@ class BlogController < ApplicationController
   end
 
   def parse
+    #content = params[:content]
+    @doc = Hash.new
+    puts "Text to parse: #{params[:content]}"
+    @doc["content"] = Kramdown::Document.new(params[:content],{auto_ids: false}).to_html
+    puts "Text after parse: #{@doc["content"]}"
+    respond_to do |format|
+
+      format.json { render json: @doc }
+    end
   end
+
   private
 
   def set_user_github

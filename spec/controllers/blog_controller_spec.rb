@@ -171,8 +171,8 @@ RSpec.describe BlogController, type: :controller do
     it "returns the parsed document" do
       params = { :content => "Test string"}
 
-      post :parse, params
-      expect(response).to eq("<p>Test string<\\p>")
+      xhr :post, :parse, params
+      expect(JSON.parse(response.body)["content"]).to eq("<p>Test string</p>\n")
     end
   end
 
