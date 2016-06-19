@@ -14,28 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-/*
-function debounce(func, wait, immediate) {
-  // The timeout reuqired for wait
-  var timeout;
-
-	return function() {
-    // saving the arguments
-    var context = this, args = arguments;
-
-    var later = function() {
-      //timeout is made null
-      timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
-*/
 
 var lastExecuted = null;
 var last = +new Date();
@@ -44,17 +22,6 @@ function debounce(func, wait, immediate){
   var timeout;
   var now;
   return function(){
-      /*
-      var newTime = new Date();
-      console.log((newTime.getSeconds() - lastExecuted));
-      if ((newTime.getSeconds() - lastExecuted) > 2){
-        console.log("Time Capsule")
-        //return parse();
-        func.apply(undefined);
-      }
-      */
-      console.log(now)
-      console.log(last+threshold)
       now = +new Date();
       if (now < last+threshold){
         console.log("Within threshold");
@@ -92,7 +59,7 @@ function parse() {
      });
 }
 
-$(document).ready(function(){
+$(document).on("page:change",function(){
 
   // filling title on load
   $("#title_preview").html($("#title").val())
@@ -121,5 +88,3 @@ $(document).ready(function(){
 
   });*/
 });
-
-//window.addEventListener('keyup', myRenderFn);
