@@ -14,23 +14,104 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+/*
+function debounce(func, wait, immediate) {
+  // The timeout reuqired for wait
+  var timeout;
 
-$(document).ready(function(){
+	return function() {
+    // saving the arguments
+    var context = this, args = arguments;
 
-  $("#title_preview").html($("#title").val())
-  
+    var later = function() {
+      //timeout is made null
+      timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+*/
+
+var lastExecuted = null;
+var last = +new Date();
+var threshold = 3000;
+function debounce(func, wait, immediate){
+  var timeout;
+  var now;
+  return function(){
+      /*
+      var newTime = new Date();
+      console.log((newTime.getSeconds() - lastExecuted));
+      if ((newTime.getSeconds() - lastExecuted) > 2){
+        console.log("Time Capsule")
+        //return parse();
+        func.apply(undefined);
+      }
+      */
+      console.log(now)
+      console.log(last+threshold)
+      now = +new Date();
+      if (now < last+threshold){
+        console.log("Within threshold");
+        var later = function(){
+          last = now;
+          var time = new Date()
+          timeout = null;
+          func.apply(undefined);
+        }
+        //last = now;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+
+      } else {
+        console.log("Over threshold");
+        clearTimeout(timeout);
+        last = now;
+        func.apply(undefined)
+      }
+
+      if(immediate){
+        func.apply(undefined)
+      }
+
+    }
+
+}
+
+function parse() {
+  console.log("Parse invoked.")
   $.post('/parse', { content: $("#content").val()},
   function(returnedData){
       $("#content_preview").html(returnedData.content.replace(/\r?\n/g,'<br/>'))
-       console.log(returnedData);
+       //console.log(returnedData);
+     });
+}
+
+$(document).ready(function(){
+
+  // filling title on load
+  $("#title_preview").html($("#title").val())
+  // fillling body on load
+  $.post('/parse', { content: $("#content").val()},
+  function(returnedData){
+      $("#content_preview").html(returnedData.content.replace(/\r?\n/g,'<br/>'))
+       //console.log(returnedData);
      });
 
   $("#title").keyup(function(){
-    console.log($("#title").val())
+    //console.log($("#title").val())
     $("#title_preview").html($("#title").val())
   })
 
-  $("#content").keyup(function(){
+  $("#content").keyup(debounce(parse, 250, false))
+
+
+  /*$("#content").keyup(function(){
     console.log($("#title").val())
     $.post('/parse', { content: $("#content").val()},
     function(returnedData){
@@ -38,5 +119,7 @@ $(document).ready(function(){
          console.log(returnedData);
        });
 
-  });
+  });*/
 });
+
+//window.addEventListener('keyup', myRenderFn);
