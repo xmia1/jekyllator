@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post 'parse', path: '/parse', controller: 'blog', action: 'parse'
-
+  get 'about', path: '/about', controller: 'home', action: 'about'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

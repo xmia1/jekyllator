@@ -26,7 +26,8 @@ class BlogController < ApplicationController
   end
 
   def show
-    title = "#{params[:id]}.#{params[:format]}"
+    #title = "#{params[:id]}.#{params[:format]}"
+    title = "#{params[:id]}.markdown"
     #https://api.github.com/repos/manuraj17/my-test-blog/contents/_posts
     owner = @user.nickname
     repo = @user.blog_repo

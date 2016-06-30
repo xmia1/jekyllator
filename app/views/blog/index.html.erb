@@ -1,12 +1,20 @@
 <div class="container">
-  <h1>Blog-Index</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Index</h3>
+    </div>
+    <div class="col-md-6">
+      <h3><p> <%= link_to 'Create', new_blog_path %></p></h3>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr>
         <th>
           Post
         </th>
-        <th>
+        <th colspan="3" align="center">
           Action
         </th>
       </tr>
@@ -15,7 +23,7 @@
       <% @files.each do |f| %>
          <tr>
            <td>
-             <%= f.name %> <br />
+             <%= f["name"].split(".")[0] %> <br />
            </td>
            <td>
              <%= link_to 'Show', blog_path(f["name"]) %> <br />
@@ -32,6 +40,6 @@
 
     </tbody>
   </table>
-  <p> <%= link_to 'Create', new_blog_path %></p>
+
 
 </div>
